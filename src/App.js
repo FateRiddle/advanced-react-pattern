@@ -23,6 +23,16 @@ class Toggle extends Component {
   }
 }
 
-const App = () => <Toggle onToggle={on => console.log('toggle', on)} />
+class App extends Component {
+  state = { on: false }
+  render() {
+    return (
+      <div>
+        <Toggle onToggle={on => this.setState({ on: on })} />
+        <div className="mv3">the toggle is {this.state.on ? 'on' : 'off'}</div>
+      </div>
+    )
+  }
+}
 
 export default App
