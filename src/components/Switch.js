@@ -1,21 +1,15 @@
-import React, { Component } from 'react'
+import React from 'react'
 import './Switch.css'
 
-export default class Switch extends Component {
-  static defaultProps = {
-    on: false,
-    onClick: () => {},
-  }
+const Switch = ({ on, className = '', ...props }) => (
+  <div className="toggle">
+    <input className="toggle-input" type="checkbox" />
+    <button
+      className={`${className} toggle-btn ${on ? 'toggle-btn-on' : 'toggle-btn-off'}`}
+      aria-expanded={on}
+      {...props}
+    />
+  </div>
+)
 
-  render() {
-    const { on, onClick } = this.props
-    return (
-      <div className="flex h5 justify-center items-center ">
-        <label className="switch">
-          <input type="checkbox" checked={on} onChange={onClick} />
-          <span className="slider round" />
-        </label>
-      </div>
-    )
-  }
-}
+export default Switch
