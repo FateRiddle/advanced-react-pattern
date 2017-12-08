@@ -12,9 +12,13 @@ class Toggle extends Component {
   toggle = () => this.setState(({ on }) => ({ on: !on }))
 
   render() {
-    return this.props.renderSwitch({
+    return this.props.render({
       on: this.state.on,
-      onClick: this.toggle,
+      toggle: this.toggle,
+      togglerProps: {
+        onClick: this.toggle,
+        'aria-expanded': this.state.on,
+      },
     })
   }
 }
@@ -24,10 +28,12 @@ class App extends Component {
     return (
       <div>
         <Toggle
-          renderSwitch={({ on, onClick }) => (
+          render={({ on, togglerProps }) => (
             <div>
               <p>toggle is {on ? 'on' : 'off'}</p>
-              <Switch on={on} onClick={onClick} />
+              <Switch on={on} {...togglerProps} />
+              <hr />
+              <button {...togglerProps}>{on ? 'on' : 'off'}</button>
             </div>
           )}
         />
