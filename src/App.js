@@ -9,27 +9,28 @@ class Toggle extends Component {
 
   state = { on: false }
 
-  toggle = () =>
-    this.setState(
-      ({ on }) => ({ on: !on }),
-      () => {
-        this.props.onToggle(this.state.on)
-      }
-    )
+  toggle = () => this.setState(({ on }) => ({ on: !on }))
 
   render() {
-    const { on } = this.state
-    return <Switch on={on} onClick={this.toggle} />
+    return this.props.renderSwitch({
+      on: this.state.on,
+      onClick: this.toggle,
+    })
   }
 }
 
 class App extends Component {
-  state = { on: false }
   render() {
     return (
       <div>
-        <Toggle onToggle={on => this.setState({ on: on })} />
-        <div className="mv3">the toggle is {this.state.on ? 'on' : 'off'}</div>
+        <Toggle
+          renderSwitch={({ on, onClick }) => (
+            <div>
+              <p>toggle is {on ? 'on' : 'off'}</p>
+              <Switch on={on} onClick={onClick} />
+            </div>
+          )}
+        />
       </div>
     )
   }

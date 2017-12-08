@@ -1,5 +1,8 @@
-compound components
+### Render props
 
-完成：toggle 组件底下显示 on/off 提示文字。
+Render() function 作为 props
 
-难点：不修改组件本身，补充组件 state 相关的附加内容。父利用子的 state。
+这个模式的本质想法是：提供你所有的 building block，让你自由描绘你需要的 render
+
+以此例，提供了<Switch />组件 , on 状态 , onClick 方法。你可以以此自由描绘定制化的组件。这
+一解决方法比 compound component 等要简洁得多。
