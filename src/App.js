@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import './App.css'
 import Switch from './components/Switch'
 
+const compose = (...fns) => (...args) => fns.map(fn => fn && fn(...args))
+
 class Toggle extends Component {
   static defaultProps = {
     onToggle: () => {},
@@ -11,14 +13,20 @@ class Toggle extends Component {
 
   toggle = () => this.setState(({ on }) => ({ on: !on }))
 
+  getTogglerProps = ({ onClick, className, ...props } = {}) => {
+    return {
+      onClick: compose(onClick, this.toggle),
+      'aria-expanded': this.state.on,
+      className: className ? `myToggle ${className}` : 'myToggle',
+      ...props,
+    }
+  }
+
   render() {
     return this.props.render({
       on: this.state.on,
       toggle: this.toggle,
-      togglerProps: {
-        onClick: this.toggle,
-        'aria-expanded': this.state.on,
-      },
+      getTogglerProps: this.getTogglerProps,
     })
   }
 }
@@ -28,12 +36,20 @@ class App extends Component {
     return (
       <div>
         <Toggle
-          render={({ on, togglerProps }) => (
+          render={({ on, getTogglerProps }) => (
             <div>
               <p>toggle is {on ? 'on' : 'off'}</p>
-              <Switch on={on} {...togglerProps} />
+              <Switch on={on} {...getTogglerProps()} />
               <hr />
-              <button {...togglerProps}>{on ? 'on' : 'off'}</button>
+              <button
+                {...getTogglerProps({
+                  onClick: () => console.log('object', on),
+                  id: 'hah',
+                  className: 'reddit',
+                })}
+              >
+                {on ? 'on' : 'off'}
+              </button>
             </div>
           )}
         />
